@@ -1,27 +1,17 @@
-Scapegoat
+AngularJS Dependencies Wrapper
 =========
 
-A minimal node module providing utility methods to `escape` and `unescape` HTML entities
+A tiny npm module for auto-wrapping a dependencies to Inline Array Annotation in AngularJS
 
 ## Installation
 
 ```shell
-  npm install scapegoat --save
+  npm install angularjs-dependencies-wrapper --save
 ```
 
 ## Usage
 
-```js
-  var scapegoat = require('scapegoat')
-      escape = scapegoat.escape,
-      unescape = scapegoat.unescape;
-
-  var html = '<h1>Hello World</h1>',
-      escaped = escape(html),
-      unescaped = unescape(escaped);
-
-  console.log('html', html, 'escaped', escaped, 'unescaped', unescaped);
-```
+TODO
 
 ## Tests
 
