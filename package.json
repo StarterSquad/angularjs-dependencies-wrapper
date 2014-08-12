@@ -1,5 +1,5 @@
 {
-  "name": "scapegoat",
+  "name": "angularjs-dependencies-wrapper",
   "version": "0.1.0",
   "description": "A small library providing utility methods to escape and unescape HTML entities",
   "main": "index.js",
@@ -8,25 +8,30 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/brentertz/scapegoat.git"
+    "url": "git://github.com/StarterSquad/angularjs-dependencies-wrapper.git"
   },
   "keywords": [
-    "escape",
-    "unescape",
-    "html"
+    "angularjs",
+    "dependency-injection",
+    "wrapper"
   ],
-  "author": "Brent Ertz <brent.ertz@gmail.com> (http://brentertz.com/)",
+  "author": "Max Diachenko  <max@startersquad.com>",
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/brentertz/scapegoat/blob/master/LICENSE-MIT"
+      "url": "https://github.com/StarterSquad/angularjs-dependencies-wrapper/blob/master/LICENSE.md"
     }
-  ],  
+  ],
   "bugs": {
-    "url": "https://github.com/brentertz/scapegoat/issues"
+    "url": "https://github.com/StarterSquad/angularjs-dependencies-wrapper/issues"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
     "chai": "~1.8.1"
-  }
+  },
+  "homepage": "https://github.com/StarterSquad/angularjs-dependencies-wrapper",
+  "directories": {
+    "test": "test"
+  },
+  "license": "MIT"
 }
