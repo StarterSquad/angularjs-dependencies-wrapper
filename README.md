@@ -1,11 +1,7 @@
-angularjs-dependencies-wrapper [![Build Status](https://secure.travis-ci.org/fengmk2/angularjs-dependencies-wrapper.png)](http://travis-ci.org/fengmk2/angularjs-dependencies-wrapper) [![Coverage Status](https://coveralls.io/repos/fengmk2/angularjs-dependencies-wrapper/badge.png)](https://coveralls.io/r/fengmk2/angularjs-dependencies-wrapper)
+AngularJS Dependencies Wrapper
 =======
 
-![logo](https://raw.github.com/fengmk2/angularjs-dependencies-wrapper/master/logo.png)
-
-Description
-
-* jscoverage: [100%](http://fengmk2.github.com/coverage/angularjs-dependencies-wrapper.html)
+A tiny npm module for auto-wrapping a dependencies to Inline Array Annotation in AngularJS 
 
 ## Install
 
@@ -18,9 +14,15 @@ $ npm install angularjs-dependencies-wrapper
 ```js
 var angularjs-dependencies-wrapper = require('angularjs-dependencies-wrapper');
 
-angularjs-dependencies-wrapper.foo(function (err) {
+angularjs-dependencies-wrapper.wrap('filename.js', function (err) {
   
 });
+```
+
+or in command line
+
+```bash
+> angularjs-dependencies-wrapper filename.js 
 ```
 
 ## License 
