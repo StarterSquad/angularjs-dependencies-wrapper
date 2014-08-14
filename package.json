@@ -1,37 +1,43 @@
 {
   "name": "angularjs-dependencies-wrapper",
-  "version": "0.1.0",
-  "description": "A small library providing utility methods to escape and unescape HTML entities",
+  "version": "0.0.1",
+  "description": "angularjs-dependencies-wrapper",
   "main": "index.js",
   "scripts": {
-    "test": "make test"
+    "test": "make test-all",
+    "blanket": { 
+      "pattern": "//^((?!(node_modules|test)).)*$/",
+      "data-cover-flags": {
+        "debug": false
+      }
+    },
+    "travis-cov": {
+      "threshold": 90
+    }
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "uglifyjs": "latest",
+    "underscore": "latest",
+    "should": "*",
+    "blanket": "*",
+    "travis-cov": "*",
+    "coveralls": "*",
+    "mocha-lcov-reporter": "*",
+    "mocha": "*"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/StarterSquad/angularjs-dependencies-wrapper.git"
+    "url": "git://github.com/fengmk2/angularjs-dependencies-wrapper.git"
   },
   "keywords": [
-    "angularjs",
-    "dependency-injection",
-    "wrapper"
+    "angularjs-dependencies-wrapper"
   ],
-  "author": "Max Diachenko  <max@startersquad.com>",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/StarterSquad/angularjs-dependencies-wrapper/blob/master/LICENSE.md"
-    }
-  ],
-  "bugs": {
-    "url": "https://github.com/StarterSquad/angularjs-dependencies-wrapper/issues"
+  "engines": {
+    "node": ">= 0.8.0"
   },
-  "devDependencies": {
-    "mocha": "~1.16.2",
-    "chai": "~1.8.1"
-  },
-  "homepage": "https://github.com/StarterSquad/angularjs-dependencies-wrapper",
-  "directories": {
-    "test": "test"
-  },
+  "author": "fengmk2 <fengmk2@gmail.com>",
   "license": "MIT"
 }

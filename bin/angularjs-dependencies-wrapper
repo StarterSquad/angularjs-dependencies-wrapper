@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+
+require("../src/angularjs-dependencies-wrapper.js").convert();
