@@ -4,9 +4,9 @@ var fs = require('fs');
 var uglifyjs = require("uglifyjs");
 var _ = require("underscore");
 
-String.prototype.splice = function (startPosition, replaceLength, insertString) {
-  return (this.slice(0, startPosition) + insertString + this.slice(startPosition + Math.abs(replaceLength)));
-};
+function splice_string(str, begin, end, replacement) {
+  return str.substr(0, begin) + replacement + str.substr(end);
+}
 
 exports.convert = function () {
   var sourceFile = process.argv[2];
@@ -15,29 +15,45 @@ exports.convert = function () {
   if (!fs.existsSync(sourceFile)) throw new Error('File is not exist');
 
   var source = fs.readFileSync(sourceFile, 'utf8');
-  var parsedSource = uglifyjs.parse(source);
+  var ast = uglifyjs.parse(source);
+  var functionsRequiresWrapping = [];
 
-  // If we're inside ngseed file
-  if (parsedSource.start.value === 'define') {
-    var module = parsedSource.body[0].body.args[1].body[1].value;
-
-    // If function has not applied an Array Inline Annotation
-    if (module.expression.property && module.args[1].start.value === 'function') {
-      // Get start end end positions of the function needs to be wrapped
-      var start = module.args[1].start.pos;
-      var end = module.args[1].end.endpos;
-
-      // Get deps and wrap each into the quotes
-      var arrayInlineAnnotationn = _(module.args[1].argnames).pluck('name').map(function (dependency) {
-        return "'" + dependency + "'";
-      });
-
-      // Push function as a last element of Array Inline Annotation
-      arrayInlineAnnotationn.push(source.slice(start, end));
-
-      // Insert result to the original source
-      source = source.splice(start, end - start, '[' + arrayInlineAnnotationn.join(', ') + ']');
+  ast.walk(new uglifyjs.TreeWalker(function (node) {
+    if (node instanceof uglifyjs.AST_Call && node.expression.property === 'service') {
+      if (node.args[1] instanceof uglifyjs.AST_Function) {
+        functionsRequiresWrapping.push(node.args[1]);
+      }
     }
+
+    if (node instanceof uglifyjs.AST_Call && node.expression.property === 'config') {
+      if (node.args[0] instanceof uglifyjs.AST_Function) {
+        functionsRequiresWrapping.push(node.args[0]);
+      }
+    }
+
+    if (node instanceof uglifyjs.AST_ObjectProperty && node.key === 'controller') {
+      if (node.value instanceof uglifyjs.AST_Function) {
+        functionsRequiresWrapping.push(node.value);
+      }
+    }
+  }));
+
+  // Wrap all functions to Array Inline Annotation
+  for (var i = functionsRequiresWrapping.length; --i >= 0;) {
+    var node = functionsRequiresWrapping[i];
+    var start_pos = node.start.pos;
+    var end_pos = node.end.endpos;
+    var dependencies = _(node.argnames).pluck('name');
+
+    var replacement = new uglifyjs.AST_Array({
+      elements: dependencies.map(function (dependency) {
+        return new uglifyjs.AST_String({
+          value: dependency
+        })
+      })
+    }).print_to_string({ beautify: true });
+
+    source = splice_string(source, start_pos, end_pos, replacement);
   }
 
   // Overwrite source file
