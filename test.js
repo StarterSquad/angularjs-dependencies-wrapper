@@ -5,22 +5,9 @@ define([
 
   return module
 
-    .config([ "$stateProvider", "Enums", "Permissions" ])
-
-    .service('ContactModal', function ($modalOnce, Enums, Employee, HowHeardType, EventLocation, Category, Measurements, CompanySetting) {
-    var service = {
-
-      openAdd: function (employeeId, eventDate, eventTypeId, eventLocationId) {
-        return $modalOnce.open({
+    .config([ "$stateProvider", "Enums", "Permissions" ]n({
           templateUrl: 'js/modules/contact-modal/add-quick-contact.tpl.html',
-          controller: function ($scope, CONFIG, item, itemPictures) {
-            $scope.item = item;
-            $scope.placeholder = CONFIG.ITEM_PLACEHOLDER_SRC;
-            $scope.itemPictures = _(itemPictures.result).sortBy(function (picture) {
-              return picture.sequence;
-            });
-
-          },
+          controller: [ "$scope", "CONFIG", "item", "itemPictures" ],
           resolve: {
             employees: function () {
               return Employee.query({filterObject: {status: Enums.statuses.active.value}});
@@ -38,4 +25,20 @@ define([
               return {
                 properties: {
                   employeeId: employeeId,
-          [ "$modalOnce", "Enums", "Employee", "HowHeardType", "EventLocation", "Category", "Measurements", "CompanySetting" ]
+                  eventDate: eventDate,
+                  eventTypeId: eventTypeId,
+                  eventLocationId: eventLocationId
+                }
+              };
+            }
+          }
+        });
+      },
+
+      openViewMeasurements: function (contactId) {
+        return $modalOnce.open({
+          templateUrl: 'js/modules/contact-modal/view-contact-measurements.tpl.html',
+          controller: 'ViewContactMeasurementsCtrl',
+          resolve: {
+            contactId: function () {
+              return contactId;[ "$modalOnce", "Enums", "Employee", "HowHeardType", "EventLocation", "Category", "Measurements", "CompanySetting" ]
